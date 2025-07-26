@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <div id="page-content" class="container mx-auto p-4 hidden">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-4xl font-extrabold text-gray-800">Restro Admin Dashboard</h1>
+            <button id="logout-btn" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 shadow-lg">Logout</button>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="mb-6 bg-white rounded-lg shadow-md p-2 flex space-x-2">
+            <button id="tab-place-order" class="tab-btn flex-1 py-2 px-4 rounded-md font-semibold text-white bg-blue-600">Place Order</button>
+            <button id="tab-menu-mgmt" class="tab-btn flex-1 py-2 px-4 rounded-md font-semibold text-gray-600 bg-gray-200">Menu Management</button>
+            <button id="tab-order-queue" class="tab-btn flex-1 py-2 px-4 rounded-md font-semibold text-gray-600 bg-gray-200">Order Queue</button>
+        </div>
+
+        <!-- Tab Content -->
+        <div>
+            <!-- Place Order Section (Visible by default) -->
+            <div id="content-place-order" class="tab-content">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Menu Display for Placing Orders -->
+                    <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-bold mb-4">Select Items to Order</h3>
+                        <div id="admin-menu-for-ordering" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-h-[70vh] overflow-y-auto p-2">
+                            <!-- Menu items for ordering will be inserted here -->
+                        </div>
+                    </div>
+                    <!-- Cart for Placing Orders -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-white p-6 rounded-lg shadow-lg sticky top-4">
+                            <h2 class="text-2xl font-bold mb-4 border-b pb-2">New Order Cart</h2>
+                            <div id="admin-cart-container" class="space-y-3 mb-4 min-h-[60px]">
+                                <p class="text-gray-500">Cart is empty.</p>
+                            </div>
+                            <div class="border-t pt-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <span class="text-lg font-semibold">Total:</span>
+                                    <span id="admin-cart-total" class="text-2xl font-bold text-blue-600">$0.00</span>
+                                </div>
+                                <button id="admin-place-order-btn" class="w-full bg-green-500 text-white p-3 rounded-lg font-bold hover:bg-green-600 disabled:bg-gray-400">
+                                    Submit Order to Kitchen
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu Management Section (Hidden by default) -->
+            <div id="content-menu-mgmt" class="tab-content hidden">
+                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1 bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-semibold mb-4">Add/Edit Item</h3>
+                        <form id="add-item-form" class="space-y-4">
+                            <input type="text" id="item-name" placeholder="Item Name" class="w-full p-2 border rounded" required>
+                            
+                            <!-- THIS IS THE CHANGED PART -->
+                            <select id="item-category" class="w-full p-2 border rounded bg-white" required>
+                                <option value="" disabled selected>Select a Category</option>
+                                <option value="Starters / Appetizers">Starters / Appetizers</option>
+                                <option value="Main Course">Main Course</option>
+                                <option value="Sides">Sides</option>
+                                <option value="Desserts">Desserts</option>
+                                <option value="Beverages / Drinks">Beverages / Drinks</option>
+                            </select>
+                            
+                            <input type="number" id="item-price" placeholder="Price" step="0.01" class="w-full p-2 border rounded" required>
+                            <input type="text" id="item-image" placeholder="Image URL" class="w-full p-2 border rounded">
+                            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-lg font-bold hover:bg-blue-600">Add Item</button>
+                        </form>
+                    </div>
+                    <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-lg">
+                         <h3 class="text-xl font-semibold mb-4">Current Menu Items</h3>
+                        <div id="menu-items-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-h-[600px] overflow-y-auto p-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Queue Section (Hidden by default) -->
+            <div id="content-order-queue" class="tab-content hidden">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div id="order-queue-container" class="space-y-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
